@@ -27,7 +27,8 @@
 
 - (void)testAttribute{
 
-    _attributeLable = [[UILabel alloc] initWithFrame:CGRectMake(40, 120, 300, 50)];
+    _attributeLable = [[UILabel alloc] initWithFrame:CGRectMake(40, 200, 200, 0)];
+    _attributeLable.font = [UIFont systemFontOfSize:18];
     _attributeLable.backgroundColor = [UIColor whiteColor];
     _attributeLable.numberOfLines = 0;
 
@@ -73,9 +74,29 @@
                                 range:purpleBoldTextRange];
         
         self.attributeLable.attributedText = attributedText;
-    }
 
+
+
+    }
+     CGFloat H = [self getLabelHeight:self.attributeLable];
+    _attributeLable.frame = CGRectMake(40, 200, 200, H);
     [self.view addSubview:_attributeLable];
+}
+
+- (CGFloat)getLabelHeight:(UILabel*)label
+{
+    CGSize constraint = CGSizeMake(label.frame.size.width, 20000.0f);
+    CGSize size;
+
+    NSStringDrawingContext *context = [[NSStringDrawingContext alloc] init];
+    CGSize boundingBox = [label.text boundingRectWithSize:constraint
+                                                  options:NSStringDrawingUsesLineFragmentOrigin
+                                               attributes:@{NSFontAttributeName:label.font}
+                                                  context:context].size;
+
+    size = CGSizeMake(ceil(boundingBox.width), ceil(boundingBox.height));
+
+    return size.height;
 }
 
 - (void)didReceiveMemoryWarning {
